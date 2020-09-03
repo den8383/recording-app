@@ -107,8 +107,8 @@ class MainActivity : AppCompatActivity() {
     internal inner class RecordButton(ctx: Context) : AppCompatButton(ctx) {
 
         var mStartRecording = true
+        fun clickButton(){
 
-        var clicker: OnClickListener = OnClickListener {
             onRecord(mStartRecording)
             text = when (mStartRecording) {
                 true -> "Stop recording"
@@ -117,15 +117,17 @@ class MainActivity : AppCompatActivity() {
             mStartRecording = !mStartRecording
         }
 
+
         init {
             text = "Start recording"
-            setOnClickListener(clicker)
         }
     }
 
     internal inner class PlayButton(ctx: Context) : AppCompatButton(ctx) {
         var mStartPlaying = true
-        var clicker: OnClickListener = OnClickListener {
+
+        fun clickButton(){
+
             onPlay(mStartPlaying)
             text = when (mStartPlaying) {
                 true -> "Stop playing"
@@ -134,9 +136,9 @@ class MainActivity : AppCompatActivity() {
             mStartPlaying = !mStartPlaying
         }
 
+
         init {
             text = "Start playing"
-            setOnClickListener(clicker)
         }
     }
 
@@ -150,19 +152,21 @@ class MainActivity : AppCompatActivity() {
 
         recordButton = RecordButton(this)
         playButton = PlayButton(this)
-        val ll = LinearLayout(this).apply {
-            addView(recordButton,
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    0f))
-            addView(playButton,
-                LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    0f))
+
+        setContentView(R.layout.activity_main)
+
+        val button1 = findViewById<Button>(R.id.record_button) as Button
+        button1.setOnClickListener{
+            Toast.makeText(this, recordButton!!.getText(), Toast.LENGTH_SHORT).show()
+            recordButton!!.clickButton()
         }
-        setContentView(ll)
+
+
+        val button2 = findViewById<Button>(R.id.play_button) as Button
+        button2.setOnClickListener{
+            Toast.makeText(this, playButton!!.getText(), Toast.LENGTH_SHORT).show()
+            playButton!!.clickButton()
+        }
     }
 
     override fun onStop() {

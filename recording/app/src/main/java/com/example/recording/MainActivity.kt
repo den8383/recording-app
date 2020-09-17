@@ -3,10 +3,8 @@ package com.example.recording
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import android.os.Bundle
-import android.widget.Button
 
 
-import android.widget.Toast
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
@@ -14,9 +12,11 @@ import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.util.Log
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
 import java.io.IOException
+
+import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(icicle)
 
         // Record to the external cache directory for visibility
-        fileName = "${externalCacheDir?.absolutePath}/audiorecordtest.3gp"
+        fileName = "${externalCacheDir?.absolutePath}/audiorecordtest1.3gp"
 
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
 
@@ -167,6 +167,17 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, playButton!!.getText(), Toast.LENGTH_SHORT).show()
             playButton!!.clickButton()
         }
+
+
+
+
+        val testButton = findViewById<Button>(R.id.test_button) as Button
+        testButton.setOnClickListener{
+            val listView = findViewById<ListView>(R.id.list_view)
+            val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, File("${externalCacheDir?.absolutePath}").list())
+            listView.setAdapter(adapter)
+        }
+
     }
 
     override fun onStop() {

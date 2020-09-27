@@ -24,6 +24,8 @@ class MainActivity : AppCompatActivity() {
     private val LOG_TAG = "AudioRecordTest"
     private val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
+    private var directoryPath: String = ""
+
     private var fileName: String = ""
 
     private var recordButton: RecordButton? = null
@@ -146,7 +148,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(icicle)
 
         // Record to the external cache directory for visibility
-        fileName = "${externalCacheDir?.absolutePath}/audiorecordtest1.3gp"
+
+        directoryPath = "${externalCacheDir?.absolutePath}/"
+
+        fileName = directoryPath+"audiorecordtest0.3gp"
 
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
 
@@ -176,6 +181,17 @@ class MainActivity : AppCompatActivity() {
             val listView = findViewById<ListView>(R.id.list_view)
             val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, File("${externalCacheDir?.absolutePath}").list())
             listView.setAdapter(adapter)
+        }
+
+        val editText = findViewById<EditText>(R.id.edit_text) as EditText
+        val sendButton = findViewById<Button>(R.id.send_button) as Button
+        sendButton.setOnClickListener {
+            // エディットテキストのテキストを取得
+            if(editText.text != null){
+                // 取得したテキストを TextView に張り付ける
+                fileName = directoryPath+editText.text.toString()+".3gp"
+                Toast.makeText(this, editText.text.toString(), Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
